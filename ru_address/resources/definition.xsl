@@ -73,7 +73,7 @@
             <xsl:choose>
                 <xsl:when test="position()!=last()">,&#xa;</xsl:when>
                 <xsl:otherwise>
-                    <xsl:if test="$index !=''">) </xsl:if>
+                    <xsl:if test="$index !=''">); </xsl:if>
 <!--                    ,&#xa;  <xsl:value-of select="$index"/>-->
                 </xsl:otherwise>
             </xsl:choose>
@@ -88,7 +88,7 @@
 <!--            <xsl:text>'</xsl:text><xsl:value-of select="/xs:schema/xs:element[1]/xs:annotation/xs:documentation"/><xsl:text>'</xsl:text>-->
 <!--        </xsl:if>-->
 
-        <xsl:text> &#xa;</xsl:text>
+<!--        <xsl:text> &#xa;</xsl:text>-->
 
         <!-- separate table definitions -->
         <xsl:text>&#xa;</xsl:text>
