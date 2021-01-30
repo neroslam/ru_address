@@ -38,7 +38,7 @@ def cli(join, source, table_list, no_data, no_definition, encoding, beta, source
 
     if mode == Output.SINGLE_FILE:
         file = output.open_dump_file(join)
-        file.write(Converter.get_dump_copyright())
+        # file.write(Converter.get_dump_copyright())
         file.write(Converter.get_dump_header(encoding))
 
         for table in process_tables:

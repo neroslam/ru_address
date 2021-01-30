@@ -57,8 +57,8 @@ class Data:
 
             # Начинаем новый инсерт, если нужно
             if current_row == 0 or until_new_bulk == 0:
-                field_query = "`, `".join(table_fields)
-                content.append('INSERT INTO `%s` (`%s`) VALUES \n' % (self.table_name, field_query))
+                field_query = '", "'.join(table_fields)
+                content.append('INSERT INTO %s ("%s") VALUES \n' % (self.table_name, field_query))
 
             # Данные для вставки, подходящий delimiter ставится у следующей записи
             content.append('\t(%s)' % value_query)
@@ -130,8 +130,8 @@ class DataHandler(sax.ContentHandler):
 
         # Начинаем новый инсерт, если нужно
         if self.current_row == 0 or until_new_bulk == 0:
-            field_query = "`, `".join(self.table_fields)
-            print('INSERT INTO `{}` (`{}`) VALUES '.format(self.table_name, field_query), file=self.dump)
+            field_query = '", "'.join(self.table_fields)
+            print('INSERT INTO {} ("{}") VALUES '.format(self.table_name, field_query), file=self.dump)
 
         # Данные для вставки, подходящий delimiter ставится у следующей записи
         print('\t({})'.format(value_query), file=self.dump, end="")
