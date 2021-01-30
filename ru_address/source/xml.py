@@ -37,10 +37,10 @@ class Data:
             for field in table_fields:
                 # SAX автоматически декодирует XML сущности, ломая запрос кавычками, workaround
                 # Достаточно удалить двойные т.к. в них оборачиваются SQL данные
-                value = "NULL"
+                value = 'NULL'
                 if elem.get(field) is not None:
-                    value = elem.get(field).replace('\\', '\\\\"').replace('"', '\\"')
-                    value = '"%s"' % value
+                    value = elem.get(field).replace('\\', '\\\\"').replace('"', '\\"').replace("'", "\\'")
+                    value = "'%s'" % value
                 value_query_parts.append(value)
 
             value_query = ', '.join(value_query_parts)
@@ -58,10 +58,10 @@ class Data:
             # Начинаем новый инсерт, если нужно
             if current_row == 0 or until_new_bulk == 0:
                 field_query = '", "'.join(table_fields)
-                content.append('INSERT INTO %s ("%s") VALUES \n' % (self.table_name, field_query))
+                content.append('INSERT INTO "%s" ("%s") VALUES \n' % (self.table_name, field_query))
 
             # Данные для вставки, подходящий delimiter ставится у следующей записи
-            content.append('\t(%s)' % value_query)
+            content.append('(%s)' % value_query)
 
             current_row += 1
             if current_row % 10000 == 0:
@@ -110,10 +110,10 @@ class DataHandler(sax.ContentHandler):
         for field in self.table_fields:
             # SAX автоматически декодирует XML сущности, ломая запрос кавычками, workaround
             # Достаточно удалить двойные т.к. в них оборачиваются SQL данные
-            value = "NULL"
+            value = 'NULL'
             if attrs.get(field) is not None:
-                value = attrs.get(field).replace('\\', '\\\\"').replace('"', '\\"')
-                value = '"{}"'.format(value)
+                value = attrs.get(field).replace('\\', '\\\\"').replace('"', '\\"').replace("'", "\\'")
+                value = "'{}'".format(value)
             value_query_parts.append(value)
 
         value_query = ', '.join(value_query_parts)
@@ -131,7 +131,7 @@ class DataHandler(sax.ContentHandler):
         # Начинаем новый инсерт, если нужно
         if self.current_row == 0 or until_new_bulk == 0:
             field_query = '", "'.join(self.table_fields)
-            print('INSERT INTO {} ("{}") VALUES '.format(self.table_name, field_query), file=self.dump)
+            print('INSERT INTO "{}" ("{}") VALUES '.format(self.table_name, field_query), file=self.dump)
 
         # Данные для вставки, подходящий delimiter ставится у следующей записи
         print('\t({})'.format(value_query), file=self.dump, end="")
