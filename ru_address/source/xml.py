@@ -39,7 +39,8 @@ class Data:
                 # Достаточно удалить двойные т.к. в них оборачиваются SQL данные
                 value = 'NULL'
                 if elem.get(field) is not None:
-                    value = elem.get(field).replace('\\', '\\\\"').replace('"', '\\"').replace("'", "\\'")
+                    value = elem.get(field).replace('\\', '\\\\"').replace('"', '\\"')
+                    value = value.replace("'", '\\"')
                     value = "'%s'" % value
                 value_query_parts.append(value)
 
@@ -112,7 +113,8 @@ class DataHandler(sax.ContentHandler):
             # Достаточно удалить двойные т.к. в них оборачиваются SQL данные
             value = 'NULL'
             if attrs.get(field) is not None:
-                value = attrs.get(field).replace('\\', '\\\\"').replace('"', '\\"').replace("'", "\\'")
+                value = attrs.get(field).replace('\\', '\\\\"').replace('"', '\\"')
+                value = value.replace("'", '\\"')
                 value = "'{}'".format(value)
             value_query_parts.append(value)
 
